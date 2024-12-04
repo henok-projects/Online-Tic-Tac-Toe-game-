@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container p-3 my-3 border">
+  <div class="card">
+    <div class="card-header bg-info text-white">
+      <h3>USER LOGIN PAGE</h3>
+    </div>
+    <div class="card-body">
+      <!-- Display login errors or messages -->
+      <p th:if="${param.error}" class="alert alert-danger">Invalid username, password, or captcha. Please try again.</p>
+      <p th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</p>
+      <p th:if="${message != null}" th:text="${message}" class="alert alert-danger"></p>
+
+      <!-- Login form -->
+      <form th:action="@{/user/login}" method="post">
+        <!-- CSRF token for security -->
+        <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <!-- Username Field -->
+        <div class="form-group row">
+          <label for="username" class="col-sm-2 col-form-label">Username:</label>
+          <div class="col-sm-4">
+            <input type="text" id="username" name="username" class="form-control" required autofocus />
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group row">
+          <label for="password" class="col-sm-2 col-form-label">Password:</label>
+          <div class="col-sm-4">
+            <input type="password" id="password" name="password" class="form-control" required />
+          </div>
+        </div>
+
+        <!-- Captcha Field -->
+        <div class="form-group row">
+          <label for="captcha" class="col-sm-2 col-form-label">Captcha:</label>
+          <div class="col-sm-4">
+            <input type="text" id="captcha" name="captcha" class="form-control" required />
+            <img th:src="'data:image/png;base64,' + ${captcha}" alt="CAPTCHA" class="mt-2"/>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+
+      <!-- Registration Link -->
+      <p class="text-center mt-3">
+        <a th:href="@{/user/register}">Register</a> if you don't have an account.
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
